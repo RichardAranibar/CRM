@@ -16,12 +16,17 @@ public class Formulario {
     private BufferedReader in = new BufferedReader(new InputStreamReader(System.in));        	
 	
 	private int modo = 0;
-	
 	final int AGREGAR = 1;
 	final int MODIFICAR = 2;
 	final int ELIMINAR = 3;
 	final int CONSULTAR = 4;
 	final int LISTAR = 5;
+	
+	private ArrayList<String> inputArray = null;
+	
+	public int getModo() {
+		return this.modo;
+	}
 	
 	// Grabar en base de datos (se debe implementar en cada herencia)
 	public void grabar() {
@@ -55,39 +60,52 @@ public class Formulario {
 			// Mostrar etiqueta de la columna a editar
 			if (this.columnasEditable.get(i).equals(""+true)) {
 				System.out.print(i+". "+this.columnasEtiqueta.get(i)+" : ");
-				if (this.columnasValor.get(i) != null || !this.columnasValor.get(i).isEmpty()) {
+				if (this.columnasValor.get(i) != null && !this.columnasValor.get(i).isEmpty()) {
 					System.out.print(this.columnasValor.get(i)+" : ");
 				}
 				
 				// Si el formulario es para editar (agregar, modificar)
 				if (p_editar) {
-					// Leer el valor de la columna desde el teclado
-					try {
-						dato = in.readLine();
-					} catch (IOException e) {
-						e.printStackTrace();
+					if (this.inputArray == null) {
+						// Leer el valor de la columna desde el teclado
+						try {
+							dato = in.readLine();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					} else {
+						// Tomar el valor del indice correspondiente
+						dato = this.inputArray.get(i);
+						System.out.println(dato);
 					}
 					// Dar formato de acuerdo al formato requerido
 					
 					// El tipo de dato se usará al momento de almacenar en la base de datos
 					
-					// Asignar el valor obtenido
-					this.columnasValor.set(i, dato);
+					// Asignar el valor obtenido, si es que distinto de nulo o vacio
+					if (dato != null && !dato.isEmpty()) {
+						this.columnasValor.set(i, dato);
+					}
 				}
 			}
 		}
 
 	}
 	
+	private void clearValues() {
+		for (String v : this.columnasValor) {
+			v = "";
+		}
+	}
+	
 	public void nuevo() {
 		// Prepara el buffer para el nuevo registro
 		this.modo = this.AGREGAR;
 		this.columnaActual = 0;
-		for (String v : this.columnasValor) {
-			v = "";
-		}
+		this.clearValues();
 		// Editar las columnas sin valores (nuevo registro)
 		this.editar(true);
+		this.grabar();
 	}
 	
 	public void modificar() {
@@ -95,6 +113,7 @@ public class Formulario {
 		this.columnaActual = 0;
 		// Editar las columnas con valores (modificar registro)
 		this.editar(true);
+		this.grabar();
 	}
 	
 	public void eliminar() {
@@ -107,6 +126,8 @@ public class Formulario {
 	public void consultar() {
 		this.modo = this.CONSULTAR;
 		this.columnaActual = 0;
+		// Limpiar datos de formulario
+		this.clearValues();
 		// Editar las columnas para usar como filtro
 		this.editar(true);
 	}
@@ -114,6 +135,7 @@ public class Formulario {
 	public void listar() {
 		this.modo = this.LISTAR;
 		this.columnaActual = 0;
+		// Listar los registros filtrados
 	}
 
 	// Retorna la siguiente columna cuando se está en modo edición
@@ -164,9 +186,18 @@ public class Formulario {
 		this.columnasTipo.add(p_tipo);
 		this.columnasFormato.add(p_formato);
 		this.columnasEditable.add(""+p_editable);
+		this.columnasValor.add(null);
 	}
 	
 	public ArrayList<String> obtenerColumnasValor() {
 		return this.columnasValor;
+	}
+	
+	public void asignarColumnasValor(ArrayList<String> p_columnasValor) {
+		this.columnasValor = p_columnasValor;
+	}
+	
+	public void setInputArray(ArrayList<String> p_inputArray) {
+		this.inputArray = p_inputArray;
 	}
 }
