@@ -3,6 +3,8 @@ package model;
 public class Secuencia {
 	private static int secuenciaProspecto = 0;
 	private static int secuenciaCliente = 0;
+	private static int secuenciaGrupoEstudio = 0;
+	private static int secuenciaVenta = 0;
 	private static String[] tablas = {"Prospecto","Cliente","Compra","Venta","GrupoEstudio","Usuario","Rol"};
 	
 	public Secuencia() {
@@ -26,6 +28,13 @@ public class Secuencia {
 		case 1:
 			new_seq = String.format("%1$05d", ++secuenciaCliente);
 			break;
+		case 3:
+			new_seq = String.format("%1$05d", ++secuenciaVenta);
+			break;		
+		case 4:
+			new_seq = String.format("%1$05d", ++secuenciaGrupoEstudio);
+			break;		
+			
 		default:
 			new_seq = "*****";
 			break;
@@ -36,6 +45,8 @@ public class Secuencia {
 	public static void reset() {
 		secuenciaProspecto = 0;
 		secuenciaCliente = 0;
+		secuenciaVenta = 0;
+		secuenciaGrupoEstudio = 0;
 	}
 	
 }

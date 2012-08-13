@@ -79,7 +79,58 @@ public class Database {
 				"06259735","Ruth","Navarro","Guevara","ruth.navarro@gmail.com",
 				"2012/07/18","Operador","roperador"));
 	}
+	
+	// Generar datos de prueba para GrupoEstudio
+	public void loadTestDataGrupoEstudio(){
+		// Grupos de Estudio
+		grupoEstudioData.add(new GrupoEstudio("Visual.NET","VB.NET","Academia Lima","VB.NET","2012-08-01","2012-10-30","0","Jose Diaz","syll001","Av.Alfonso Ugarte 123","B10","12°02 00 S","77°01 00 O"));
+		grupoEstudioData.add(new GrupoEstudio("SQL 2010","SQL","Academia Lima","SQL","2012-08-01","2012-10-30","0","Raul Diaz","syll002","Av.Alfonso Ugarte 123","B20","12°02 00 S","77°01 00 O"));
+		grupoEstudioData.add(new GrupoEstudio("Oracle 11","Oracle Administrator","Academia Lima","Oracle Administrator","2012-08-01","2012-10-30","0","Rommel Diaz","syll003","Av.Alfonso Ugarte 123","B30","12°02 00 S","77°01 00 O"));
+		grupoEstudioData.add(new GrupoEstudio("Office 2010","Excel 2010 Avanzado","Academia Lima","Excel 2010","2012-08-01","2012-10-30","0","Pablo Diaz","syll004","Av.Alfonso Ugarte 123","B40","12°02 00 S","77°01 00 O"));
+		grupoEstudioData.add(new GrupoEstudio("Office 2010","Word 2010 Avanzado","Academia Lima","Word 2010","2012-08-01","2012-10-30","0","Ernesto Diaz","syll005","Av.Alfonso Ugarte 123","B50","12°02 00 S","77°01 00 O"));
+		grupoEstudioData.add(new GrupoEstudio("Office 2010","Powerpoint 2010 Avanzado","Academia Lima","Powerpoint 2010","2012-08-01","2012-10-30","0","Julio Diaz","syll006","Av.Alfonso Ugarte 123","B60","12°02 00 S","77°01 00 O"));
+		grupoEstudioData.add(new GrupoEstudio("Office 2010","Outlook 2010 Avanzado","Academia Norte","Outlook 2010","2012-08-30","2012-10-30","0","Julio Diaz","syll006","Av.Alfonso Ugarte 123","B70","12°02 00 S","77°01 00 O"));
+		grupoEstudioData.add(new GrupoEstudio("Abap IV","Abap IV Avanzado","Academia San Miguel","Abap IV Avanzado","2012-08-30","2012-10-30","0","Julio Diaz","syll006","Av.Alfonso Ugarte 123","B71","12°02 00 S","77°01 00 O"));
+		grupoEstudioData.add(new GrupoEstudio("Genexus","Genexus Avanzado","Academia San Miguel","Genexus Avanzado","2012-08-30","2012-10-30","0","Julio Diaz","syll006","Av.Alfonso Ugarte 123","B72","12°02 00 S","77°01 00 O"));
+		
+		// Monedas
+		currencyData.add(new Currency("SOL", "S/.", 1.00));
+		currencyData.add(new Currency("DOL", "US$", 2.65));
+		
+		// Permisos por Rol (Modulo, Consultar, Agregar, Modificar, Eliminar)
+		ArrayList<Permiso> permisoRAdmin = new ArrayList<Permiso>();
+		permisoRAdmin.add(new Permiso("Prospectos"   , true, true, true, true, true));
+		permisoRAdmin.add(new Permiso("Clientes"     , true, true, true, true, true));
+		permisoRAdmin.add(new Permiso("Compras"      , true, true, true, true, true));
+		permisoRAdmin.add(new Permiso("Ventas"       , true, true, true, true, true));
+		permisoRAdmin.add(new Permiso("GruposEstudio", true, true, true, true, true));
+		permisoRAdmin.add(new Permiso("Usuarios"     , true, true, true, true, true));
+		permisoRAdmin.add(new Permiso("Roles"        , true, true, true, true, true));
 
+		ArrayList<Permiso> permisoROperador = new ArrayList<Permiso>();
+		permisoROperador.add(new Permiso("Prospectos"   , true, true, true, true, false));
+		permisoROperador.add(new Permiso("Clientes"     , true, true, true, true, true));
+		permisoROperador.add(new Permiso("Compras"      , true, true, true, true, true));
+		permisoROperador.add(new Permiso("Ventas"       , true, true, true, true, true));
+		permisoROperador.add(new Permiso("GruposEstudio", true, true, true, true, true));
+		permisoROperador.add(new Permiso("Usuarios"     , false, true, true, true, true));
+		permisoROperador.add(new Permiso("Roles"        , false, true, true, true, true));
+
+		// Roles
+		rolData.add(new Rol("radmin", permisoRAdmin));
+		rolData.add(new Rol("roperador", permisoROperador));
+		
+		// Usuarios
+		usuarioData.add(new Usuario("admin","Curs0d3p002012",
+				"06259735","Jorge","Cabezudo","Perez","jorge.cabezudo@gmail.com",
+				"2012/07/08","Administrador","radmin"));
+		usuarioData.add(new Usuario("operador","0p3r4d0r",
+				"06259735","Ruth","Navarro","Guevara","ruth.navarro@gmail.com",
+				"2012/07/18","Operador","roperador"));
+		
+		
+	}
+	
 	public Usuario getUsuario(String p_atributo, String p_valor) {
 		Usuario usuarioFound = null;
 		// retornar el objeto que coincide con el valor del atributo
@@ -131,8 +182,15 @@ public class Database {
 	public void addProspecto(Prospecto p) {
 		prospectoData.add(p);
 	}
+	public void addGrupoEstudio(GrupoEstudio p) {
+		grupoEstudioData.add(p);
+	}
+	
 
 	public ArrayList<Prospecto> getProspectos() {
 		return prospectoData;
+	}
+	public ArrayList<GrupoEstudio> getGrupoEstudio() {
+		return grupoEstudioData;
 	}
 }

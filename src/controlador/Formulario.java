@@ -3,6 +3,8 @@ package controlador;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class Formulario {
@@ -51,7 +53,74 @@ public class Formulario {
 		if (this.columnaActual > 0)
 			this.columnaActual--;
 	}
+	public boolean validarDatosGrupoEstudio(String p_nombre,String p_fechainicio, String p_fechafin){
+		if (p_nombre == null || p_nombre.isEmpty()){
+			System.out.println("Debe ingresar nombre de grupo de estudio");
+			return false;
+        }		
+		if (p_fechainicio == null || p_fechainicio.isEmpty()){
+			System.out.println("Debe ingresar fecha de inicio de grupo de estudio");
+			return false;
+        }		
+		if (p_fechafin == null || p_fechafin.isEmpty()){
+			System.out.println("Debe ingresar fecha de fin de grupo de estudio");
+			return false;
+        }		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); //año-mes-dia
+		if (p_fechainicio.trim().length() != dateFormat.toPattern().length()){
+			System.out.println("Debe ingresar fecha de inicio en el formato AAAA-MM-DD");
+			return false;  
+		}
+		if (p_fechafin.trim().length() != dateFormat.toPattern().length()){
+			System.out.println("Debe ingresar fecha de fin en el formato AAAA-MM-DD");
+			return false;  		
+		}
+		
+		
+		try {  
+			dateFormat.parse(p_fechainicio.trim());
+			dateFormat.parse(p_fechafin.trim());
+			if (dateFormat.parse(p_fechainicio).compareTo(dateFormat.parse(p_fechafin)) >= 0 ) {
+				System.out.println("Fecha de inicio debe ser menor que Fecha de fin");
+				return false;  		
+			}			
+			}  
+			catch (ParseException pe) {  
+				System.out.println("Debe ingresar fecha en el formato AAAA-MM-DD");				
+			return false;  
+			}  
+		return true;	
+		
+	}
+
 	
+	public boolean validarGrupoEstudio(){
+		
+//		boolean bvalor = true;
+		return validarDatosGrupoEstudio(this.inputArray.get(1),this.inputArray.get(5),this.inputArray.get(6));
+//		String dato = null;
+/*		dato = this.inputArray.get(i);
+		System.out.println(dato);
+		if (dato == null || dato.isEmpty()) {
+			bvalor= false;
+			switch(i){
+			case 1:
+				System.out.println("Nombre de Grupo no puede ser blancos...verifique");
+				break;
+			case 5:
+				System.out.println("Fecha de Inicio no puede ser blancos...verifique");
+				break;
+			case 6:
+				System.out.println("Fecha de Fin no puede ser blancos...verifique");
+				break;
+				
+			default:
+				break;
+			}
+		}
+		return bvalor;*/
+		
+	}
 	public void editar(boolean p_editar) {
 		String dato = null;
 		

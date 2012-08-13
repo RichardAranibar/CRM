@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import controlador.FormProspecto;
+import controlador.FormGrupoEstudio;
 
 import model.Currency;
 import model.Database;
@@ -25,10 +26,11 @@ public class CRM {
 	private String systemDateFormat;
 	private String systemDecimalFormat;
 	private FormProspecto formProspecto = new FormProspecto();
-	
+	private FormGrupoEstudio formGrupoEstudio = new FormGrupoEstudio();
 	public CRM() {
 		db = new Database();
 		formProspecto.setDatabase(db);
+		formGrupoEstudio.setDatabase(db);
 	}
 	
 	public void setUser(String p_userName) {
@@ -104,6 +106,9 @@ public class CRM {
 
 	public void loadTestData() {
 		db.loadTestData();
+	}
+	public void loadTestDataGrupoEstudio() {
+		db.loadTestDataGrupoEstudio();
 	}
 
 	public String getSystemDateFormat() {
@@ -232,16 +237,35 @@ public class CRM {
 	public void nuevoProspecto() {
 		formProspecto.nuevo();
 	}
+	public void nuevoGrupoEstudio() {
+		formGrupoEstudio.nuevo();
+	}
+
+	public boolean validaGrupo(){
+		return formGrupoEstudio.validarGrupoEstudio();
+
+	}
 	
 	public void setProspectoInputArray(ArrayList<String> p_prospectoInputArray) {
 		formProspecto.setInputArray(p_prospectoInputArray);
 	}
-
+	public void setGrupoEstudioInputArray(ArrayList<String> p_grupoestudioInputArray) {
+		formGrupoEstudio.setInputArray(p_grupoestudioInputArray);
+	}
+	
+	
 	public void listarProspecto() {
 		formProspecto.listar();
+	}
+	public void listarGrupoEstudio() {
+		formGrupoEstudio.listar();
 	}
 
 	public void modificaProspecto() {
 		formProspecto.modificar();
 	}
+	public void modificaGrupoEstudio() {
+		formGrupoEstudio.modificar();
+	}
+	
 }
